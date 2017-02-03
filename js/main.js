@@ -49,4 +49,20 @@ function moveDown() {
     draw();
 }
 
-// setInterval(moveDown, 3000);
+setInterval(moveDown, 3000);
+
+
+
+
+
+
+
+
+
+function shapeSetter() {
+	var shape = (Math.rand() * 8 + 1);
+	for (var i = 0; i < 1000; i++){
+		console.log(shape);
+	}
+}
+
