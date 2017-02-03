@@ -1,3 +1,5 @@
+"use strict";
+
 console.log("main.js connected");    
 
 var canvas = document.getElementById('myCanvas'); // in your HTML this element appears as <canvas id="mycanvas"></canvas>
@@ -9,7 +11,6 @@ var ctx = canvas.getContext('2d');
 // ctx.strokeRect(30,10,20,20);
 // ctx.strokeRect(50,10,20,20);
 // ctx.strokeRect(70,10,20,20);
-
 
 // ctx.strokeStyle = "black";
 // ctx.strokeRect(10,30,20,20);
@@ -40,7 +41,7 @@ function draw() {
     ctx.fillRect(x, (y + 20),19,19);
     ctx.fillRect((x+20),y,19,19);
     ctx.fillRect((x+20),(y+20),19,19);
-};
+}
 
 function moveDown() {
     y = y + 20;
