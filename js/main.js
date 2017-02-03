@@ -1,3 +1,5 @@
+"use strict";
+
 console.log("main.js connected");    
 
 var canvas = document.getElementById('myCanvas'); // in your HTML this element appears as <canvas id="mycanvas"></canvas>
@@ -41,7 +43,7 @@ function draw() {
     ctx.fillRect(x, (y + 20),19,19);
     ctx.fillRect((x+20),y,19,19);
     ctx.fillRect((x+20),(y+20),19,19);
-};
+}
 
 function moveDown() {
     ctx.clearRect(originalCoordinates);
