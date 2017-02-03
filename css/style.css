@@ -1,12 +1,13 @@
-canvas {
-    position: absolute;
+body {
     height: 100%;
-    width: 45%;
-    border: 2px solid black;
+    width: 100%
 }
 
 #canvasContainer {
-    height: 100%;
-    width: 100%;
+    width: 200px;
     margin: 0 auto;
+}
+
+#myCanvas {
+	border: 2px solid black;
 }
