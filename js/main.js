@@ -29,24 +29,33 @@ var ctx = canvas.getContext('2d');
 // ctx.strokeRect(50,70,20,20);
 // ctx.strokeRect(70,70,20,20);
 
-var x = 30;
-var y = 30;
+var x = 0;
+var y = -20	;
 var originalCoordinates;
 
 
 function draw() {
-    ctx.fillStyle = "red";
-    originalCoordinates = (x, y, 19, 19);
-    ctx.fillRect(originalCoordinates);
+    ctx.fillStyle = "red";  
+    ctx.fillRect(x, y, 19, 19);
     ctx.fillRect(x, (y + 20),19,19);
     ctx.fillRect((x+20),y,19,19);
     ctx.fillRect((x+20),(y+20),19,19);
 };
 
 function moveDown() {
-    ctx.clearRect(originalCoordinates);
     y = y + 20;
+    ctx.clearRect(x, (y-20), 19, 19);	
+    ctx.clearRect(x+20, (y-20), 19, 19);
     draw();
 }
 
-// setInterval(moveDown, 3000);
+setInterval(moveDown, 3000);
+
+
+
+
+
+
+
+
+
