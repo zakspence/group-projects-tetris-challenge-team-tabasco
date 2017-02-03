@@ -29,8 +29,8 @@ var ctx = canvas.getContext('2d');
 // ctx.strokeRect(50,70,20,20);
 // ctx.strokeRect(70,70,20,20);
 
-var x = 30;
-var y = 30;
+var x = 0;
+var y = -20	;
 var originalCoordinates;
 
 
@@ -50,3 +50,12 @@ function moveDown() {
 }
 
 setInterval(moveDown, 3000);
+
+
+
+
+
+
+
+
+
