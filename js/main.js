@@ -35,7 +35,10 @@ var y = -20	;
 var originalCoordinates;
 
 
-function draw() {
+
+
+
+function draw(shape) {
     ctx.fillStyle = "red";  
     ctx.fillRect(x, y, 19, 19);
     ctx.fillRect(x, (y + 20),19,19);
@@ -50,22 +53,12 @@ function moveDown() {
     draw();
 }
 
-setInterval(moveDown, 3000);
 
 
-
-
-
-
-
-
-
-
-function shapeSetter() {
-	var shape = (Math.rand() * 8 + 1);
-	for (var i = 0; i < 1000; i++){
-		console.log(shape);
-	}
-}
+var shapeSetter = () => {
+    return Math.floor((Math.random() * 7 + 1));
+};
 
 shapeSetter();
+
+setInterval(moveDown, 3000);
