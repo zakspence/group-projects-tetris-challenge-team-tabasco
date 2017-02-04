@@ -1,3 +1,5 @@
+"use strict";
+
 console.log("main.js connected");    
 
 var canvas = document.getElementById('myCanvas'); // in your HTML this element appears as <canvas id="mycanvas"></canvas>
@@ -194,7 +196,6 @@ var I = [
 ]
 
 var J = [
-
 	boxA2 = {
 		x: 30,
 		y: 30
@@ -449,9 +450,6 @@ var whoseMove = {
 	color: "red",
 	position: 0
 }
-//draw(whoseMove.me, whoseMove.color, whoseMove.move)
-
-
 
 
 
