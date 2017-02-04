@@ -77,7 +77,7 @@ document.addEventListener("keyup", function(event){
 	}
 	if(event.which === 87) {
 		console.log("w press");
-		rotateLeft();
+		rotateLeft(potato, "red");
 	}
 	if(event.which === 32)
 		console.log("space press");
