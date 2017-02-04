@@ -1,9 +1,9 @@
-console.log("main.js connected");    
 
 var canvas = document.getElementById('myCanvas'); // in your HTML this element appears as <canvas id="mycanvas"></canvas>
 var ctx = canvas.getContext('2d');
 var h = 19;
 var w = 19;
+var waitTime = 500;
 var letterColor = {
 	square: "red",
 	T: "blue",
@@ -26,9 +26,10 @@ var clearMove = {
 var lastLetter = [];
 var moveCounter = 0;
 
-function draw(potato, colorOfLetter, moveMe) {
-	ctx.fillStyle = colorOfLetter;  
+function draw() {
+	ctx.fillStyle = whoseMove.color;  
 	lastLetter = [];
+	potato = whoseMove.me
 	for (var i = 0; i < potato.length; i++) {
 	    ctx.fillRect(potato[i].x, potato[i].y, w, h);
 	    var potatoBox = {};
@@ -36,54 +37,99 @@ function draw(potato, colorOfLetter, moveMe) {
 	    potatoBox.y = Number(potato[i].y);
 	    lastLetter.push(potatoBox);
 	}
-	if (moveMe === undefined) {
-		return;
-	} else {
-		moveMe(potato)
-	}
 };
 
-function moveRight(superman) {
+function moveRight() {
+	var superman = whoseMove.me
 	for (var i = 0; i < superman.length; i++) {
     	superman[i].x += 20;
     }
-    draw(whoseMove.me, whoseMove.color);
 }
 
-function moveLeft(spiderman) {
+function moveLeft() {
+	var spiderman = whoseMove.me
 	for (var i = 0; i < spiderman.length; i++) {
     	spiderman[i].x -= 20;
     }
-    draw(whoseMove.me, whoseMove.color);
 }
 
-function moveDown(dontjudgeme) {
+function moveDown() {
+	var dontjudgeme = whoseMove.me
     for (var i = 0; i < dontjudgeme.length; i++) {
     	dontjudgeme[i].y += 20;
     }
-    waitToMove();
 }
 
-function clearToMove(doraTheExplorer) {
+function rotateRight() {
+	var potato = whoseMove.me;
+	for (var i = 0; i < potato.length; i++) {
+	    potato[i].x = Number(lastLetter[i].y + lastLetter[1].x - lastLetter[1].y);
+	    potato[i].y = Number(lastLetter[1].x + lastLetter[1].y - lastLetter[i].x);
+	}
+}
+
+function rotateLeft() {
+	var potato = whoseMove.me;
+	for (var i = 0; i < potato.length; i++) {
+	    potato[i].x = Number(lastLetter[1].x + lastLetter[1].y - lastLetter[i].y);
+		potato[i].y = Number(lastLetter[i].x + lastLetter[1].y - lastLetter[1].x);
+	}
+}
+
+function clearToMove() {
 	var length = clearMove["clear" + whoseMove.string];
 	for (var i = 0; i < length; i++) {
 		ctx.clearRect(lastLetter[i].x, lastLetter[i].y, w, h);
 	}
-	draw(whoseMove.me, whoseMove.color, whoseMove.move);
 }
 
-function waitToMove() {
+function playGame() {
+	draw();
 	myTimeout = setTimeout(function(){
 		if (moveCounter !== 18) {
 			moveCounter++;
-			clearToMove(); 
+			moveDown();
+			clearToMove();
+			playGame();
 		} else {
-			resetLetter(whoseMove.string);
+			resetLetter();
 			startOver();
-			return;
+			playGame();
 		}
-	}, 500);
+		
+	}, waitTime);
 }
+
+document.addEventListener("keyup", function(event){
+	if(event.which === 82) {
+		// r button
+		clearToMove();
+		rotateRight();
+		draw();
+	}
+	if(event.which === 87) {
+		// w button
+		clearToMove();
+		rotateLeft();
+		draw();
+	}
+	if(event.which === 32) {
+		// space
+		waitTime = 100;
+	}
+	if (event.which === 39) {
+		// right arrow
+		clearToMove();
+		moveRight();
+		draw();
+	}
+	if (event.which === 37) {
+		// left arrow
+		clearToMove();
+		moveLeft();
+		draw();
+	}
+});
 
 function startOver() {
 	var randoNum = Math.floor((Math.random() * 49) + 1)
@@ -131,41 +177,41 @@ function startOver() {
 		whoseMove.position = 6;
 	}
 	moveCounter = 0;
-	draw(whoseMove.me, whoseMove.color, whoseMove.move)
+	waitTime = 500;
 }
 
-function resetLetter(stringToResetLetterArray) {
-	if (stringToResetLetterArray === "square") {
+function resetLetter() {
+	if (whoseMove.string === "square") {
 		for (var i = 0; i < square.length; i++) {
 		square[i].x = Number(originals.square[i].x);
 		square[i].y = Number(originals.square[i].y);
 		}
-	} else if (stringToResetLetterArray === "L") {
+	} else if (whoseMove.string === "L") {
 		for (var i = 0; i < L.length; i++) {
 		L[i].x = Number(originals.L[i].x);
 		L[i].y = Number(originals.L[i].y);
 		}
-	} else if (stringToResetLetterArray === "J") {
+	} else if (whoseMove.string === "J") {
 		for (var i = 0; i < J.length; i++) {
 		J[i].x = Number(originals.J[i].x);
 		J[i].y = Number(originals.J[i].y);
 		}
-	} else if (stringToResetLetterArray === "Z") {
+	} else if (whoseMove.string === "Z") {
 		for (var i = 0; i < Z.length; i++) {
 		Z[i].x = Number(originals.Z[i].x);
 		Z[i].y = Number(originals.Z[i].y);
 		}
-	} else if (stringToResetLetterArray === "S") {
+	} else if (whoseMove.string === "S") {
 		for (var i = 0; i < S.length; i++) {
 		S[i].x = Number(originals.S[i].x);
 		S[i].y = Number(originals.S[i].y);
 		}
-	} else if (stringToResetLetterArray === "I") {
+	} else if (whoseMove.string === "I") {
 		for (var i = 0; i < I.length; i++) {
 		I[i].x = Number(originals.I[i].x);
 		I[i].y = Number(originals.I[i].y);
 		}
-	} else if (stringToResetLetterArray === "T") {
+	} else if (whoseMove.string === "T") {
 		for (var i = 0; i < T.length; i++) {
 		T[i].x = Number(originals.T[i].x);
 		T[i].y = Number(originals.T[i].y);
@@ -449,7 +495,8 @@ var whoseMove = {
 	color: "red",
 	position: 0
 }
-//draw(whoseMove.me, whoseMove.color, whoseMove.move)
+
+startOver();
 
 
 
