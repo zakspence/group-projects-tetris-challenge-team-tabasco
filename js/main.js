@@ -90,18 +90,26 @@ function clearToMove() {
 
 function playGame() {
 	draw();
+	if (moveCounter === 0) {
+			createGamePiece();
+	}
 	myTimeout = setTimeout(function(){
-		if (moveCounter !== 20) {
-			moveCounter++;
-			moveDown();
-			clearToMove();
-			playGame();
-		} else {
+		checkIfClearDown();
+		if (collisionDown === true){
+			turn2sTo1s();
+			checkIfRowIsFull();
 			resetLetter();
 			startOver();
+			createGamePiece();
 			playGame();
+			return;
 		}
-		
+		moveCounter++;
+		moveGBDown();
+		moveDown();
+		clearToMove();
+		playGame();
+
 	}, waitTime);
 }
 
@@ -127,20 +135,24 @@ document.addEventListener("keyup", function(event){
 		checkIfClearRight();
 		if (collisionRight === true) {
 			return;
-		}
+		} else {
+		moveGBRight();
 		clearToMove();
 		moveRight();
 		draw();
+		}
 	}
 	if (event.which === 37) {
 		// left arrow
 		checkIfClearLeft();
 		if (collisionLeft === true) {
 			return;
-		}
+		} else {
+		moveGBLeft();
 		clearToMove();
 		moveLeft();
 		draw();
+		}
 	}
 });
 
@@ -237,134 +249,111 @@ function resetLetter() {
 ///////////////////////////////////////////////////////////////
 
 function checkIfClearDown() {
-
-	for (var io = 0; io < 4; io++) {
-
-		occupiedX = [];
-
-		if (moveCounter > 2) {
-		    for (var x = 0; x < 12; x++) {
-		        if (gameboard[moveCounter - io][x] === 2) {
-		            occupiedX.push(x);
-		        }
-		    }
-		    for (var i = 0; i < 12; i++) {
-		    	if (gameboard[moveCounter - io + 1][occupiedX[i]] === 1) {
-		    		collisionDown = true;
-		    		//collison();
-		    		return;
-		    	}
-		    	collisionDown = false;
-		    }
-		}
-
-	    occupiedX = [];
-
-	    for (var p = 0; p < 12; p++) {
-	        if (gameboard[moveCounter + io][x] === 2) {
-	            occupiedX.push(x);
-	        }
-	    }
-	    for (var m = 0; m < 12; m++) {
-	    	if (gameboard[moveCounter + io + 1][occupiedX[i]] === 1) {
-	    		collisionDown = true;
-	    		//collision();
-	    		return;
-	    	}
+	for (var i = 0; i < 4; i++) {
+		var xCoord = whoseMove.me[i].x
+		var yCoord = whoseMove.me[i].y
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
+	    
+	    if (gameboard[yCoord + 1][xCoord] === 1) {
+	    	collisionDown = true;
+	    	return;
+	    } else {
 	    	collisionDown = false;
 	    }
 	}
 }
 
 function checkIfClearRight() {
-
-    for (var io = 0; io < 4; io++) {
-
-		occupiedX = [];
-		if (moveCounter > 2) {
-		    for (var x = 0; x < 12; x++) {
-		        if (gameboard[moveCounter - io][x] === 2) {
-		            occupiedX.push(x);
-		        }
-		    }
-		    for (var i = 0; i < 12; i++) {
-		    	if (gameboard[moveCounter - io][occupiedX[i] + 1] === 1) {
-		    		collisionRight = true;
-		    		return;
-		    	}
-		    	collisionRight = false;
-		    }
-		}
-
-	    occupiedX = [];
-
-	    for (var p = 0; p < 12; p++) {
-	        if (gameboard[moveCounter + io][x] === 2) {
-	            occupiedX.push(x);
-	        }
-	    }
-	    for (var m = 0; m < 12; m++) {
-	    	if (gameboard[moveCounter + io][occupiedX[i] + 1] === 1) {
-	    		collisionRight = true;
-	    		return;
-	    	}
+	for (var i = 0; i < 4; i++) {
+		var xCoord = whoseMove.me[i].x
+		var yCoord = whoseMove.me[i].y
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = yCoord/20;
+	    
+	    if (gameboard[yCoord][xCoord + 1] === 1) {
+	    	collisionRight = true;
+	    	return;
+	    } else {
 	    	collisionRight = false;
 	    }
 	}
 }
 
 function checkIfClearLeft() {
-
-    for (var io = 0; io < 4; io++) {
-
-		occupiedX = [];
-		if (moveCounter > 2) {
-		    for (var x = 0; x < 12; x++) {
-		        if (gameboard[moveCounter - io][x] === 2) {
-		            occupiedX.push(x);
-		        }
-		    }
-		    for (var i = 0; i < 12; i++) {
-		    	if (gameboard[moveCounter - io][occupiedX[i] - 1] === 1) {
-		    		collisionLeft = true;
-		    		return;
-		    	}
-		    	collisionLeft = false;
-		    }
-		}
-
-	    occupiedX = [];
-
-	    for (var p = 0; p < 12; p++) {
-	        if (gameboard[moveCounter + io][x] === 2) {
-	            occupiedX.push(x);
-	        }
-	    }
-	    for (var m = 0; m < 12; m++) {
-	    	if (gameboard[moveCounter + io][occupiedX[i] - 1] === 1) {
-	    		collisionLeft = true;
-	    		return;
-	    	}
+	for (var i = 0; i < 4; i++) {
+		var xCoord = whoseMove.me[i].x
+		var yCoord = whoseMove.me[i].y
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
+	    
+	    if (gameboard[yCoord][xCoord - 1] === 1) {
+	    	collisionLeft = true;
+	    	return;
+	    } else {
 	    	collisionLeft = false;
 	    }
 	}
 }
 
 function moveGBDown () {
-
+	for (var i = 3; i >= 0; i--) {
+		var xCoord = whoseMove.me[i].x
+		var yCoord = whoseMove.me[i].y
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
+	    
+	    gameboard[yCoord][xCoord] = 0;
+	   	gameboard[yCoord + 1][xCoord] = 2;
+	}
 }
 
 function moveGBLeft () {
-
+	for (var i = 3; i >= 0; i--) {
+		var xCoord = whoseMove.me[i].x
+		var yCoord = whoseMove.me[i].y
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
+	    
+	    gameboard[yCoord][xCoord] = 0;
+	   	gameboard[yCoord][xCoord - 1] = 2;
+	}
 }
 
 function moveGBRight () {
-
+	for (var i = 3; i >= 0; i--) {
+		var xCoord = whoseMove.me[i].x
+		var yCoord = whoseMove.me[i].y
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
+	    
+	    gameboard[yCoord][xCoord] = 0;
+	   	gameboard[yCoord][xCoord + 1] = 2;
+	}
 }
 
-function collision() {
-	//turn2sTo1s();
-    //checkIfRowIsFull();
+function turn2sTo1s() {
+	for (var i = 2; i < 22; i++) {
+		for (var n = 0; n < 12; n++) {
+			if (gameboard[i][n] === 2) {
+				gameboard[i][n] = 1;
+			}
+		}
+	}
+}
+
+function checkIfRowIsFull() {
+	for (var i = 2; i < 22; i++) {
+		var fullRow = [];
+		for (var n = 0; n < 12; n++) {
+			if (gameboard[i][n] === 1) {
+				fullRow.push(n);
+			}
+			if (fullRow.length === 11) {
+				console.log("row " + i + " is full");
+			}
+		}
+	}
 }
 
 function createGamePiece() {
@@ -390,6 +379,7 @@ function createGamePiece() {
 		gameboard[0] = originals.gameboardT[0];
 		gameboard[1] = originals.gameboardT[1];
 	}
+}
 
 var gameboard = [
     [1,0,0,0,0,0,0,0,0,0,0,1],
@@ -459,6 +449,10 @@ var J = [
 
 var L = [
 
+	boxA4 = {
+		x: 100,
+		y: 0
+	},
 	boxB2 = {
 		x: 60,
 		y: 20
@@ -470,11 +464,8 @@ var L = [
 	boxB4 = {
 		x: 100,
 		y: 20
-	},
-	boxA4 = {
-		x: 100,
-		y: 0
 	}
+	
 ]
 
 var square = [
@@ -539,19 +530,19 @@ var T = [
 
 var Z = [
 
-	boxB2 = {
+	boxA2 = {
 		x: 60,
 		y: 0
 	},
-	boxA2 = {
+	boxA3 = {
 		x: 80,
 		y: 0
 	},
-	boxB2 = {
+	boxB3 = {
 		x: 80,
 		y: 20
 	},
-	boxB3 = {
+	boxB4 = {
 		x: 100,
 		y: 20
 	}
@@ -641,6 +632,10 @@ var originals = {
 		}
 	],
 	L: [
+		boxA4 = {
+			x: 100,
+			y: 0
+		},
 		boxB2 = {
 			x: 60,
 			y: 20
@@ -652,10 +647,6 @@ var originals = {
 		boxB4 = {
 			x: 100,
 			y: 20
-		},
-		boxA4 = {
-			x: 100,
-			y: 0
 		}
 	],
 	S: [
@@ -695,19 +686,19 @@ var originals = {
 		}
 	],
 	Z: [
-		boxB2 = {
+		boxA2 = {
 			x: 60,
 			y: 0
 		},
-		boxA2 = {
+		boxA3 = {
 			x: 80,
 			y: 0
 		},
-		boxB2 = {
+		boxB3 = {
 			x: 80,
 			y: 20
 		},
-		boxB3 = {
+		boxB4 = {
 			x: 100,
 			y: 20
 		}
@@ -715,7 +706,6 @@ var originals = {
 }
 
 startOver();
-
 
 
 
