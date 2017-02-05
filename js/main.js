@@ -14,15 +14,6 @@ var letterColor = {
 	I: "green"
 }
 var myTimeout;
-var clearMove = {
- 	clearsquare: 4,
- 	clearT: 4,
- 	clearS: 4,
- 	clearZ: 4,
- 	clearJ: 4,
- 	clearL: 4,
- 	clearI: 4
-}
 var lastLetter = [];
 var moveCounter = 0;
 
@@ -77,8 +68,7 @@ function rotateLeft() {
 }
 
 function clearToMove() {
-	var length = clearMove["clear" + whoseMove.string];
-	for (var i = 0; i < length; i++) {
+	for (var i = 0; i < 4; i++) {
 		ctx.clearRect(lastLetter[i].x, lastLetter[i].y, w, h);
 	}
 }
