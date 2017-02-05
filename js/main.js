@@ -128,8 +128,8 @@ document.addEventListener("keyup", function(event){
 		clearBeforeRotateGBRight();
 		clearToMove();
 		rotateRight();
-		rotateGBRight();
 		draw();
+		rotateGBRight();
 	}
 	if(event.which === 87) {
 		// w button
@@ -143,8 +143,8 @@ document.addEventListener("keyup", function(event){
 		clearBeforeRotateGBLeft();
 		clearToMove();
 		rotateLeft();
-		rotateGBLeft();
 		draw();
+		rotateGBLeft();
 	}
 	if(event.which === 32) {
 		// space
@@ -325,8 +325,8 @@ function checkIfClearRotateRight() {
 	for (var i = 0; i < 4; i++) {
 		var xCoord = copy[i].x;
 		var yCoord = copy[i].y;
-	    xCoord = (xCoord/20);
-	    yCoord = (yCoord/20) + 1;
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
 	    
 	    if (gameboard[yCoord][xCoord] === 1) {
 	    	collisionRotateRight = true;
@@ -346,8 +346,8 @@ function checkIfClearRotateLeft() {
 	for (var i = 0; i < 4; i++) {
 		var xCoord = copy[i].x;
 		var yCoord = copy[i].y;
-	    xCoord = (xCoord/20);
-	    yCoord = (yCoord/20) + 1;
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
 	    
 	    if (gameboard[yCoord][xCoord] === 1) {
 	    	collisionRotateLeft = true;
@@ -396,10 +396,10 @@ function moveGBRight () {
 
 function clearBeforeRotateGBRight() {
 	for (var i = 3; i >= 0; i--) {
-		var xCoord = whoseMove.me[i].x
-		var yCoord = whoseMove.me[i].y
-	    xCoord = (xCoord/20);
-	    yCoord = (yCoord/20) + 1;
+		var xCoord = lastLetter[i].x
+		var yCoord = lastLetter[i].y
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
 	    
 	    gameboard[yCoord][xCoord] = 0;
 	}
@@ -407,10 +407,10 @@ function clearBeforeRotateGBRight() {
 
 function clearBeforeRotateGBLeft() {
 	for (var i = 3; i >= 0; i--) {
-		var xCoord = whoseMove.me[i].x
-		var yCoord = whoseMove.me[i].y
-	    xCoord = (xCoord/20);
-	    yCoord = (yCoord/20) + 1;
+		var xCoord = lastLetter[i].x
+		var yCoord = lastLetter[i].y
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
 	    
 	    gameboard[yCoord][xCoord] = 0;
 	}
