@@ -17,6 +17,14 @@ var myTimeout;
 var lastLetter = [];
 var moveCounter = 0;
 
+var whoseMove = {
+	me: square,
+	move: moveDown,
+	string: "square",
+	color: "red",
+	position: 0
+}
+
 function draw() {
 	ctx.fillStyle = whoseMove.color;  
 	lastLetter = [];
@@ -76,7 +84,7 @@ function clearToMove() {
 function playGame() {
 	draw();
 	myTimeout = setTimeout(function(){
-		if (moveCounter !== 18) {
+		if (moveCounter !== 20) {
 			moveCounter++;
 			moveDown();
 			clearToMove();
@@ -209,281 +217,332 @@ function resetLetter() {
 	}
 }
 
+function checkIfClear() {
+	for (var i = 0; i < 10; i++) {
+		var checkMe = gameboard[moveCounter + 1][i].indexOf(1);
+		console.log("checkMe =", checkMe);
+	}
+}
+
+var gameboard = [
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0]
+];
+
 var I = [
 
 	boxA1 = {
-		x: 10,
-		y: 30
+		x: 60,
+		y: 20
 	},
 	boxA2 = {
-		x: 30,
-		y: 30
+		x: 80,
+		y: 20
 	},
 	boxA3 = {
-		x: 50,
-		y: 30
+		x: 100,
+		y: 20
 	},
 	boxA4 = {
-		x: 70,
-		y: 30
+		x: 120,
+		y: 20
 	}
 ]
 
 var J = [
 
 	boxA2 = {
-		x: 30,
-		y: 30
+		x: 60,
+		y: 0
 	},
-	boxB2 = {
-		x: 30,
-		y: 50
+	boxA3 = {
+		x: 80,
+		y: 0
 	},
-	boxC1 = {
-		x: 10,
-		y: 70
+	boxA4 = {
+		x: 100,
+		y: 0
 	},
-	boxC2 = {
-		x: 30,
-		y: 70
+	boxB4 = {
+		x: 100,
+		y: 20
 	}
 ]
 
 var L = [
 
-	boxA2 = {
-		x: 30,
-		y: 30
-	},
 	boxB2 = {
-		x: 30,
-		y: 50
+		x: 60,
+		y: 20
 	},
-	boxC2 = {
-		x: 30,
-		y: 70
+	boxB3 = {
+		x: 80,
+		y: 20
 	},
-	boxC3 = {
-		x: 50,
-		y: 70
+	boxB4 = {
+		x: 100,
+		y: 20
+	},
+	boxA4 = {
+		x: 100,
+		y: 0
 	}
 ]
 
 var square = [
 
 	boxA2 = {
-		x: 30,
-		y: 30
+		x: 80,
+		y: 0
 	},
 	boxA3 = {
-		x: 50,
-		y: 30
-	},
-	boxB3 = {
-		x: 50,
-		y: 50
+		x: 100,
+		y: 0
 	},
 	boxB2 = {
-		x: 30,
-		y: 50
+		x: 80,
+		y: 20
+	},
+	boxB3 = {
+		x: 100,
+		y: 20
 	}
 ]
 
 var S = [
 
-	boxA2 = {
-		x: 30,
-		y: 30
-	},
 	boxA3 = {
-		x: 50,
-		y: 30
+		x: 80,
+		y: 0
 	},
-	boxB1 = {
-		x: 10,
-		y: 50
+	boxA4 = {
+		x: 100,
+		y: 0
 	},
 	boxB2 = {
-		x: 30,
-		y: 50
+		x: 60,
+		y: 20
+	},
+	boxB3 = {
+		x: 80,
+		y: 20
 	}
 ]
 
 var T = [
 
-	boxB1 = {
-		x: 10,
-		y: 50
+	boxA2 = {
+		x: 60,
+		y: 0
 	},
-	boxB2 = {
-		x: 30,
-		y: 50
+	boxA3 = {
+		x: 80,
+		y: 0
+	},
+	boxA4 = {
+		x: 100,
+		y: 0
 	},
 	boxB3 = {
-		x: 50,
-		y: 50
-	},
-	boxC2 = {
-		x: 30,
-		y: 70
+		x: 80,
+		y: 20
 	}
 ]
 
 var Z = [
 
-	boxA1 = {
-		x: 10,
-		y: 30
+	boxB2 = {
+		x: 60,
+		y: 0
 	},
 	boxA2 = {
-		x: 30,
-		y: 30
+		x: 80,
+		y: 0
 	},
 	boxB2 = {
-		x: 30,
-		y: 50
+		x: 80,
+		y: 20
 	},
 	boxB3 = {
-		x: 50,
-		y: 50
+		x: 100,
+		y: 20
 	}
 ]
 
 var originals = {
+	gameboardSquare: [
+		[0,0,0,0,1,1,0,0,0,0],
+    	[0,0,0,0,1,1,0,0,0,0]
+	],
+	gameboardI: [
+		[0,0,0,0,0,0,0,0,0,0],
+		[0,0,0,1,1,1,1,0,0,0]
+	],
+	gameboardL: [
+		[0,0,0,0,0,1,0,0,0,0],
+    	[0,0,0,1,1,1,0,0,0,0]
+	],
+	gameboardJ: [
+		[0,0,0,1,1,1,0,0,0,0],
+    	[0,0,0,0,0,1,0,0,0,0]
+	],
+	gameboardS: [
+		[0,0,0,0,1,1,0,0,0,0],
+    	[0,0,0,1,1,0,0,0,0,0]
+	],
+	gameboardZ: [
+		[0,0,0,1,1,0,0,0,0,0],
+    	[0,0,0,0,1,1,0,0,0,0]
+	],
+	gameboardT: [
+		[0,0,0,1,1,1,0,0,0,0],
+    	[0,0,0,0,1,0,0,0,0,0]
+	],
 	square: [
 		boxA2 = {
-			x: 30,
-			y: 30
+			x: 80,
+			y: 0
 		},
 		boxA3 = {
-			x: 50,
-			y: 30
-		},
-		boxB3 = {
-			x: 50,
-			y: 50
+			x: 100,
+			y: 0
 		},
 		boxB2 = {
-			x: 30,
-			y: 50
+			x: 80,
+			y: 20
+		},
+		boxB3 = {
+			x: 100,
+			y: 20
 		}
 	],
 	I: [
 		boxA1 = {
-			x: 10,
-			y: 30
+			x: 60,
+			y: 20
 		},
 		boxA2 = {
-			x: 30,
-			y: 30
+			x: 80,
+			y: 20
 		},
 		boxA3 = {
-			x: 50,
-			y: 30
+			x: 100,
+			y: 20
 		},
 		boxA4 = {
-			x: 70,
-			y: 30
+			x: 120,
+			y: 20
 		}
 	],
 	J: [
 		boxA2 = {
-			x: 30,
-			y: 30
+			x: 60,
+			y: 0
 		},
-		boxB2 = {
-			x: 30,
-			y: 50
+		boxA3 = {
+			x: 80,
+			y: 0
 		},
-		boxC1 = {
-			x: 10,
-			y: 70
+		boxA4 = {
+			x: 100,
+			y: 0
 		},
-		boxC2 = {
-			x: 30,
-			y: 70
+		boxB4 = {
+			x: 100,
+			y: 20
 		}
 	],
 	L: [
-		boxA2 = {
-			x: 30,
-			y: 30
-		},
 		boxB2 = {
-			x: 30,
-			y: 50
+			x: 60,
+			y: 20
 		},
-		boxC2 = {
-			x: 30,
-			y: 70
+		boxB3 = {
+			x: 80,
+			y: 20
 		},
-		boxC3 = {
-			x: 50,
-			y: 70
+		boxB4 = {
+			x: 100,
+			y: 20
+		},
+		boxA4 = {
+			x: 100,
+			y: 0
 		}
 	],
 	S: [
-		boxA2 = {
-			x: 30,
-			y: 30
-		},
 		boxA3 = {
-			x: 50,
-			y: 30
+			x: 80,
+			y: 0
 		},
-		boxB1 = {
-			x: 10,
-			y: 50
+		boxA4 = {
+			x: 100,
+			y: 0
 		},
 		boxB2 = {
-			x: 30,
-			y: 50
+			x: 60,
+			y: 20
+		},
+		boxB3 = {
+			x: 80,
+			y: 20
 		}
 	],
 	T: [
-		boxB1 = {
-			x: 10,
-			y: 50
+		boxA2 = {
+			x: 60,
+			y: 0
 		},
-		boxB2 = {
-			x: 30,
-			y: 50
+		boxA3 = {
+			x: 80,
+			y: 0
+		},
+		boxA4 = {
+			x: 100,
+			y: 0
 		},
 		boxB3 = {
-			x: 50,
-			y: 50
-		},
-		boxC2 = {
-			x: 30,
-			y: 70
+			x: 80,
+			y: 20
 		}
 	],
 	Z: [
-		boxA1 = {
-			x: 10,
-			y: 30
+		boxB2 = {
+			x: 60,
+			y: 0
 		},
 		boxA2 = {
-			x: 30,
-			y: 30
+			x: 80,
+			y: 0
 		},
 		boxB2 = {
-			x: 30,
-			y: 50
+			x: 80,
+			y: 20
 		},
 		boxB3 = {
-			x: 50,
-			y: 50
+			x: 100,
+			y: 20
 		}
 	]
-}
-
-var whoseMove = {
-	me: square,
-	move: moveDown,
-	string: "square",
-	color: "red",
-	position: 0
 }
 
 startOver();
