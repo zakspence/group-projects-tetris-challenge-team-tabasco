@@ -13,10 +13,17 @@ var letterColor = {
 	L: "orange",
 	I: "green"
 }
+var collisionDown;
+var collisionLeft;
+var collisionRight;
+
 var myTimeout;
 var lastLetter = [];
+
 var moveCounter = 0;
+
 var occupiedX = [];
+
 var whoseMove = {
 	me: square,
 	move: moveDown,
@@ -117,12 +124,20 @@ document.addEventListener("keyup", function(event){
 	}
 	if (event.which === 39) {
 		// right arrow
+		checkIfClearRight();
+		if (collisionRight === true) {
+			return;
+		}
 		clearToMove();
 		moveRight();
 		draw();
 	}
 	if (event.which === 37) {
 		// left arrow
+		checkIfClearLeft();
+		if (collisionLeft === true) {
+			return;
+		}
 		clearToMove();
 		moveLeft();
 		draw();
@@ -222,29 +237,159 @@ function resetLetter() {
 ///////////////////////////////////////////////////////////////
 
 function checkIfClearDown() {
-	occupiedX = [];
-	rowOfPiece = moveCounter + 1;
-	rowInfrontOfPiece = moveCounter +2;
-    for (var x = 0; x < gameboard[rowInfrontOfPiece].length; x++) {
-        if (gameboard[rowOfPiece][x] === 2) {
-            occupiedX.push(x);
-        }
-    }
-    for (var i = 0; x < gameboard[rowOfPiece].length; i++) {
-    	if (gameboard[rowInfrontOfPiece][occupiedX[i]] === 1) {
-    		collisionDown = true;
-    		//turn2sTo1s();
-    		//checkIfRowIsFull();
-    		return;
-    	} else {
-    		collisionDown = false;
-    	}
-    } 
+
+	for (var io = 0; io < 4; io++) {
+
+		occupiedX = [];
+
+		if (moveCounter > 2) {
+		    for (var x = 0; x < 12; x++) {
+		        if (gameboard[moveCounter - io][x] === 2) {
+		            occupiedX.push(x);
+		        }
+		    }
+		    for (var i = 0; i < 12; i++) {
+		    	if (gameboard[moveCounter - io + 1][occupiedX[i]] === 1) {
+		    		collisionDown = true;
+		    		//collison();
+		    		return;
+		    	}
+		    	collisionDown = false;
+		    }
+		}
+
+	    occupiedX = [];
+
+	    for (var p = 0; p < 12; p++) {
+	        if (gameboard[moveCounter + io][x] === 2) {
+	            occupiedX.push(x);
+	        }
+	    }
+	    for (var m = 0; m < 12; m++) {
+	    	if (gameboard[moveCounter + io + 1][occupiedX[i]] === 1) {
+	    		collisionDown = true;
+	    		//collision();
+	    		return;
+	    	}
+	    	collisionDown = false;
+	    }
+	}
 }
 
-function movePieceDown () {
-	
+function checkIfClearRight() {
+
+    for (var io = 0; io < 4; io++) {
+
+		occupiedX = [];
+		if (moveCounter > 2) {
+		    for (var x = 0; x < 12; x++) {
+		        if (gameboard[moveCounter - io][x] === 2) {
+		            occupiedX.push(x);
+		        }
+		    }
+		    for (var i = 0; i < 12; i++) {
+		    	if (gameboard[moveCounter - io][occupiedX[i] + 1] === 1) {
+		    		collisionRight = true;
+		    		return;
+		    	}
+		    	collisionRight = false;
+		    }
+		}
+
+	    occupiedX = [];
+
+	    for (var p = 0; p < 12; p++) {
+	        if (gameboard[moveCounter + io][x] === 2) {
+	            occupiedX.push(x);
+	        }
+	    }
+	    for (var m = 0; m < 12; m++) {
+	    	if (gameboard[moveCounter + io][occupiedX[i] + 1] === 1) {
+	    		collisionRight = true;
+	    		return;
+	    	}
+	    	collisionRight = false;
+	    }
+	}
 }
+
+function checkIfClearLeft() {
+
+    for (var io = 0; io < 4; io++) {
+
+		occupiedX = [];
+		if (moveCounter > 2) {
+		    for (var x = 0; x < 12; x++) {
+		        if (gameboard[moveCounter - io][x] === 2) {
+		            occupiedX.push(x);
+		        }
+		    }
+		    for (var i = 0; i < 12; i++) {
+		    	if (gameboard[moveCounter - io][occupiedX[i] - 1] === 1) {
+		    		collisionLeft = true;
+		    		return;
+		    	}
+		    	collisionLeft = false;
+		    }
+		}
+
+	    occupiedX = [];
+
+	    for (var p = 0; p < 12; p++) {
+	        if (gameboard[moveCounter + io][x] === 2) {
+	            occupiedX.push(x);
+	        }
+	    }
+	    for (var m = 0; m < 12; m++) {
+	    	if (gameboard[moveCounter + io][occupiedX[i] - 1] === 1) {
+	    		collisionLeft = true;
+	    		return;
+	    	}
+	    	collisionLeft = false;
+	    }
+	}
+}
+
+function moveGBDown () {
+
+}
+
+function moveGBLeft () {
+
+}
+
+function moveGBRight () {
+
+}
+
+function collision() {
+	//turn2sTo1s();
+    //checkIfRowIsFull();
+}
+
+function createGamePiece() {
+	if (whoseMove.string === "square") {
+		gameboard[0] = originals.gameboardSquare[0];
+		gameboard[1] = originals.gameboardSquare[1];
+	} else if (whoseMove.string === "L") {
+		gameboard[0] = originals.gameboardL[0];
+		gameboard[1] = originals.gameboardL[1];
+	} else if (whoseMove.string === "J") {
+		gameboard[0] = originals.gameboardJ[0];
+		gameboard[1] = originals.gameboardJ[1];
+	} else if (whoseMove.string === "Z") {
+		gameboard[0] = originals.gameboardZ[0];
+		gameboard[1] = originals.gameboardZ[1];
+	} else if (whoseMove.string === "S") {
+		gameboard[0] = originals.gameboardZ[0];
+		gameboard[1] = originals.gameboardZ[1];
+	} else if (whoseMove.string === "I") {
+		gameboard[0] = originals.gameboardI[0];
+		gameboard[1] = originals.gameboardI[1];
+	} else if (whoseMove.string === "T") {
+		gameboard[0] = originals.gameboardT[0];
+		gameboard[1] = originals.gameboardT[1];
+	}
 
 var gameboard = [
     [1,0,0,0,0,0,0,0,0,0,0,1],
