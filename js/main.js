@@ -148,7 +148,7 @@ document.addEventListener("keyup", function(event){
 	}
 	if(event.which === 32) {
 		// space
-		waitTime = 999999900;
+		waitTime = 100;
 	}
 	if (event.which === 39) {
 		// right arrow
@@ -222,7 +222,7 @@ function startOver() {
 		whoseMove.position = 6;
 	}
 	moveCounter = 0;
-	waitTime = 20000;
+	waitTime = 500;
 }
 
 function resetLetter() {
@@ -270,8 +270,8 @@ function resetLetter() {
 
 function checkIfClearDown() {
 	for (var i = 0; i < 4; i++) {
-		var xCoord = whoseMove.me[i].x
-		var yCoord = whoseMove.me[i].y
+		var xCoord = whoseMove.me[i].x;
+		var yCoord = whoseMove.me[i].y;
 	    xCoord = (xCoord/20) + 1;
 	    yCoord = (yCoord/20);
 	    
@@ -286,10 +286,10 @@ function checkIfClearDown() {
 
 function checkIfClearRight() {
 	for (var i = 0; i < 4; i++) {
-		var xCoord = whoseMove.me[i].x
-		var yCoord = whoseMove.me[i].y
+		var xCoord = whoseMove.me[i].x;
+		var yCoord = whoseMove.me[i].y;
 	    xCoord = (xCoord/20) + 1;
-	    yCoord = yCoord/20;
+	    yCoord = (yCoord/20);
 	    
 	    if (gameboard[yCoord][xCoord + 1] === 1) {
 	    	collisionRight = true;
@@ -302,8 +302,8 @@ function checkIfClearRight() {
 
 function checkIfClearLeft() {
 	for (var i = 0; i < 4; i++) {
-		var xCoord = whoseMove.me[i].x
-		var yCoord = whoseMove.me[i].y
+		var xCoord = whoseMove.me[i].x;
+		var yCoord = whoseMove.me[i].y;
 	    xCoord = (xCoord/20) + 1;
 	    yCoord = (yCoord/20);
 	    
@@ -325,8 +325,8 @@ function checkIfClearRotateRight() {
 	for (var i = 0; i < 4; i++) {
 		var xCoord = copy[i].x;
 		var yCoord = copy[i].y;
-	    xCoord = (xCoord/20) + 1;
-	    yCoord = (yCoord/20);
+	    xCoord = (xCoord/20);
+	    yCoord = (yCoord/20) + 1;
 	    
 	    if (gameboard[yCoord][xCoord] === 1) {
 	    	collisionRotateRight = true;
@@ -346,8 +346,8 @@ function checkIfClearRotateLeft() {
 	for (var i = 0; i < 4; i++) {
 		var xCoord = copy[i].x;
 		var yCoord = copy[i].y;
-	    xCoord = (xCoord/20) + 1;
-	    yCoord = (yCoord/20);
+	    xCoord = (xCoord/20);
+	    yCoord = (yCoord/20) + 1;
 	    
 	    if (gameboard[yCoord][xCoord] === 1) {
 	    	collisionRotateLeft = true;
