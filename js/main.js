@@ -16,6 +16,8 @@ var letterColor = {
 var collisionDown;
 var collisionLeft;
 var collisionRight;
+var collisionRotateLeft;
+var collisionRotateRight;
 
 var myTimeout;
 var lastLetter = [];
@@ -116,12 +118,22 @@ function playGame() {
 document.addEventListener("keyup", function(event){
 	if(event.which === 82) {
 		// r button
+		checkIfClearRotateRight();
+		if (collisionRotateLeft === true) {
+			return;
+		}
+		rotateGBRight();
 		clearToMove();
 		rotateRight();
 		draw();
 	}
 	if(event.which === 87) {
 		// w button
+		checkIfClearRotateLeft();
+		if (collisionRotateRight === true) {
+			return;
+		}
+		rotateGBLeft();
 		clearToMove();
 		rotateLeft();
 		draw();
@@ -296,6 +308,48 @@ function checkIfClearLeft() {
 	}
 }
 
+function checkIfClearRotateRight() {
+	var copy = whoseMove.me.slice(0);
+	for (var i = 0; i < potato.length; i++) {
+        copy[i].x = Number(lastLetter[i].y + lastLetter[1].x - lastLetter[1].y);
+        copy[i].y = Number(lastLetter[1].x + lastLetter[1].y - lastLetter[i].x);
+    }
+	for (var i = 0; i < 4; i++) {
+		var xCoord = copy[i].x
+		var yCoord = copy[i].y
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
+	    
+	    if (gameboard[yCoord][xCoord] === 1) {
+	    	collisionRotateRight = true;
+	    	return;
+	    } else {
+	    	collisionRotateRight = false;
+	    }
+	}
+}
+
+function checkIfClearRotateLeft() {
+	var copy = whoseMove.me.slice(0);
+	for (var i = 0; i < potato.length; i++) {
+        copy[i].x = Number(lastLetter[1].x + lastLetter[1].y - lastLetter[i].y);
+        copy[i].y = Number(lastLetter[i].x + lastLetter[1].y - lastLetter[1].x);
+    }
+	for (var i = 0; i < 4; i++) {
+		var xCoord = copy[i].x
+		var yCoord = copy[i].y
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
+	    
+	    if (gameboard[yCoord][xCoord] === 1) {
+	    	collisionRotateLeft = true;
+	    	return;
+	    } else {
+	    	collisionRotateLeft = false;
+	    }
+	}
+}
+
 function moveGBDown () {
 	for (var i = 3; i >= 0; i--) {
 		var xCoord = whoseMove.me[i].x
@@ -330,6 +384,14 @@ function moveGBRight () {
 	    gameboard[yCoord][xCoord] = 0;
 	   	gameboard[yCoord][xCoord + 1] = 2;
 	}
+}
+
+function rotateGBRight() {
+
+}
+
+function rotateGBLeft() {
+
 }
 
 function turn2sTo1s() {
