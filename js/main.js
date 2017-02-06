@@ -91,27 +91,33 @@ function clearToMove() {
 }
 
 function playGame() {
-	draw();
 	if (moveCounter === 0) {
 			createGamePiece();
+			draw();
 	}
 	myTimeout = setTimeout(function(){
 		checkIfClearDown();
+		if (collisionDown === true && moveCounter < 2) {
+			alert("Game Over");
+			return;
+		}
 		if (collisionDown === true){
 			turn2sTo1s();
 			checkIfRowIsFull();
 			resetLetter();
 			startOver();
 			createGamePiece();
+			draw();
 			playGame();
 			return;
 		}
 		moveCounter++;
-		moveGBDown();
-		moveDown();
+		clearBeforeMoveGB();
 		clearToMove();
+		moveDown();
+		draw();
 		playGame();
-
+		moveGBDown();
 	}, waitTime);
 }
 
@@ -122,10 +128,10 @@ document.addEventListener("keyup", function(event){
 			return;
 		}
 		checkIfClearRotateRight();
-		if (collisionRotateLeft === true) {
+		if (collisionRotateRight === true) {
 			return;
 		}
-		clearBeforeRotateGBRight();
+		clearBeforeMoveGB();
 		clearToMove();
 		rotateRight();
 		draw();
@@ -137,10 +143,10 @@ document.addEventListener("keyup", function(event){
 			return;
 		}
 		checkIfClearRotateLeft();
-		if (collisionRotateRight === true) {
+		if (collisionRotateLeft === true) {
 			return;
 		}
-		clearBeforeRotateGBLeft();
+		clearBeforeMoveGB();
 		clearToMove();
 		rotateLeft();
 		draw();
@@ -156,10 +162,11 @@ document.addEventListener("keyup", function(event){
 		if (collisionRight === true) {
 			return;
 		} else {
-		moveGBRight();
+		clearBeforeMoveGB();
 		clearToMove();
 		moveRight();
 		draw();
+		moveGBRight();
 		}
 	}
 	if (event.which === 37) {
@@ -168,10 +175,11 @@ document.addEventListener("keyup", function(event){
 		if (collisionLeft === true) {
 			return;
 		} else {
-		moveGBLeft();
+		clearBeforeMoveGB();
 		clearToMove();
 		moveLeft();
 		draw();
+		moveGBLeft();
 		}
 	}
 });
@@ -317,7 +325,7 @@ function checkIfClearLeft() {
 }
 
 function checkIfClearRotateRight() {
-	var copy = whoseMove.me.slice(0);
+	var copy = [empty1 = {}, empty2 = {}, empty3 = {}, empty4 = {}];
 	for (var i = 0; i < 4; i++) {
         copy[i].x = Number(lastLetter[i].y + lastLetter[1].x - lastLetter[1].y);
         copy[i].y = Number(lastLetter[1].x + lastLetter[1].y - lastLetter[i].x);
@@ -325,6 +333,10 @@ function checkIfClearRotateRight() {
 	for (var i = 0; i < 4; i++) {
 		var xCoord = copy[i].x;
 		var yCoord = copy[i].y;
+		if (xCoord > 180) {
+			collisionRotateRight = true;
+			return;
+		}
 	    xCoord = (xCoord/20) + 1;
 	    yCoord = (yCoord/20);
 	    
@@ -338,7 +350,7 @@ function checkIfClearRotateRight() {
 }
 
 function checkIfClearRotateLeft() {
-	var copy = whoseMove.me.slice(0);
+	var copy = [empty1 = {}, empty2 = {}, empty3 = {}, empty4 = {}];
 	for (var i = 0; i < 4; i++) {
         copy[i].x = Number(lastLetter[1].x + lastLetter[1].y - lastLetter[i].y);
         copy[i].y = Number(lastLetter[i].x + lastLetter[1].y - lastLetter[1].x);
@@ -346,6 +358,10 @@ function checkIfClearRotateLeft() {
 	for (var i = 0; i < 4; i++) {
 		var xCoord = copy[i].x;
 		var yCoord = copy[i].y;
+		if (xCoord > 180) {
+			collisionRotateLeft = true;
+			return;
+		}
 	    xCoord = (xCoord/20) + 1;
 	    yCoord = (yCoord/20);
 	    
@@ -358,68 +374,54 @@ function checkIfClearRotateLeft() {
 	}
 }
 
-function moveGBDown () {
+function clearBeforeMoveGB() {
 	for (var i = 3; i >= 0; i--) {
-		var xCoord = whoseMove.me[i].x
-		var yCoord = whoseMove.me[i].y
+		var xCoord = lastLetter[i].x
+		var yCoord = lastLetter[i].y
 	    xCoord = (xCoord/20) + 1;
 	    yCoord = (yCoord/20);
 	    
 	    gameboard[yCoord][xCoord] = 0;
-	   	gameboard[yCoord + 1][xCoord] = 2;
+	}
+}
+
+function moveGBDown () {
+	for (var i = 3; i >= 0; i--) {
+		var xCoord = lastLetter[i].x
+		var yCoord = lastLetter[i].y
+	    xCoord = (xCoord/20) + 1;
+	    yCoord = (yCoord/20);
+	    
+	    gameboard[yCoord][xCoord] = 2;
 	}
 }
 
 function moveGBLeft () {
 	for (var i = 3; i >= 0; i--) {
-		var xCoord = whoseMove.me[i].x
-		var yCoord = whoseMove.me[i].y
+		var xCoord = lastLetter[i].x
+		var yCoord = lastLetter[i].y
 	    xCoord = (xCoord/20) + 1;
 	    yCoord = (yCoord/20);
 	    
-	    gameboard[yCoord][xCoord] = 0;
-	   	gameboard[yCoord][xCoord - 1] = 2;
+	    gameboard[yCoord][xCoord] = 2;
 	}
 }
 
 function moveGBRight () {
 	for (var i = 3; i >= 0; i--) {
-		var xCoord = whoseMove.me[i].x
-		var yCoord = whoseMove.me[i].y
-	    xCoord = (xCoord/20) + 1;
-	    yCoord = (yCoord/20);
-	    
-	    gameboard[yCoord][xCoord] = 0;
-	   	gameboard[yCoord][xCoord + 1] = 2;
-	}
-}
-
-function clearBeforeRotateGBRight() {
-	for (var i = 3; i >= 0; i--) {
 		var xCoord = lastLetter[i].x
 		var yCoord = lastLetter[i].y
 	    xCoord = (xCoord/20) + 1;
 	    yCoord = (yCoord/20);
 	    
-	    gameboard[yCoord][xCoord] = 0;
-	}
-}
-
-function clearBeforeRotateGBLeft() {
-	for (var i = 3; i >= 0; i--) {
-		var xCoord = lastLetter[i].x
-		var yCoord = lastLetter[i].y
-	    xCoord = (xCoord/20) + 1;
-	    yCoord = (yCoord/20);
-	    
-	    gameboard[yCoord][xCoord] = 0;
+	    gameboard[yCoord][xCoord] = 2;
 	}
 }
 
 function rotateGBRight() {
 	for (var i = 3; i >= 0; i--) {
-		var xCoord = whoseMove.me[i].x
-		var yCoord = whoseMove.me[i].y
+		var xCoord = lastLetter[i].x
+		var yCoord = lastLetter[i].y
 	    xCoord = (xCoord/20) + 1;
 	    yCoord = (yCoord/20);
 	    
@@ -429,8 +431,8 @@ function rotateGBRight() {
 
 function rotateGBLeft() {
 	for (var i = 3; i >= 0; i--) {
-		var xCoord = whoseMove.me[i].x
-		var yCoord = whoseMove.me[i].y
+		var xCoord = lastLetter[i].x
+		var yCoord = lastLetter[i].y
 	    xCoord = (xCoord/20) + 1;
 	    yCoord = (yCoord/20);
 	    
@@ -455,7 +457,7 @@ function checkIfRowIsFull() {
 			if (gameboard[i][n] === 1) {
 				fullRow.push(n);
 			}
-			if (fullRow.length === 11) {
+			if (fullRow.length === 12) {
 				console.log("row " + i + " is full");
 			}
 		}
